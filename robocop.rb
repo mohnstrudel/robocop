@@ -22,7 +22,6 @@ class Robot
 			return true
 		else
 			puts 'Vorsicht! Absturz des Roboters bevorstehend. Befehl wird ignoriert.' unless ENV['RACK_ENV'] == 'test'
-			
 			return false
 		end
 	end
@@ -90,8 +89,15 @@ class Robot
 	def perform(command_array, allowed)
 		if allowed
 			args = []
+			# Egal, ob der Befehl ein PLACE-Befehl mit Argumenten ist oder nicht
+			# der Befehlsname ist immer an ersten Stelle im Array.
 			command = command_array[0]	
 			if command_array.length > 1
+				# Falls die Laenger groesser als 1 ist, dann haben wir ein PLACE-Befehl
+				# der wie folgt (gesplittet) aussieht: ['PLACE', '0','0', 'NORTH']
+				# drop(1) entfernt den eigentlichen Befehl, mit map und is_number? pruefen
+				# wir ob ein Element eine Zahl ist (und damit x- oder y-Koordinate) und falls
+				# nicht, dann einfach uebernommen wird (sonst wird 'NORTH' zu nil)
 				args = command_array.drop(1).map { |i| is_number?(i) ? i.to_i : i}
 			end
 			begin
