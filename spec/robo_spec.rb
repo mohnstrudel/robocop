@@ -62,6 +62,25 @@ RSpec.describe Robot, '#chess' do
 			expect(robot.x).to eq 1
 			expect(robot.y).to eq 0
 		end
+
+		it 'performs combined actions' do
+			robot.place(2,3,'NORTH')
+			robot.right
+			robot.move
+			robot.right
+			robot.move
+			robot.right
+			# Drehung nach rechts -> EAST
+			# Bewegung (nach rechts) -> x=3, y=3
+			# Drehung nach rechts -> SOUTH
+			# Bewegung (nach unten) -> x=3, y=2
+			# Drehung nach rechts -> WEST
+			# Somit muessen: x==3, y==2, f=='WEST' sein
+
+			expect(robot.x).to eq 3
+			expect(robot.y).to eq 2
+			expect(robot.f).to eq 'WEST'
+		end
 	end
 
 	context 'file' do

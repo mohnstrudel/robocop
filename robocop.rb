@@ -101,6 +101,10 @@ class Robot
 				args = command_array.drop(1).map { |i| is_number?(i) ? i.to_i : i}
 			end
 			begin
+				# Hier wird der eigentliche Befehl ausgefuehrt. Z.B. wird aus 'MOVE' durch
+				# send('move') der entsprechende Befehl fuer das aktuelle Objekt ausgefuehrt.
+				# Aus ['PLACE', '0','0', 'NORTH'] wird send('place', [0,0,'NORTH']) und der
+				# method def place(x,y,f) wird mit den Argumenten ausgefuehrt.
 				self.send(command.downcase, *args)
 			rescue=>e
 				puts "Command rescued with following error message: #{e.message}"
